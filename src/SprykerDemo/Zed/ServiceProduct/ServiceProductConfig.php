@@ -21,5 +21,30 @@ class ServiceProductConfig extends AbstractBundleConfig
     /**
      * @var string
      */
-    public const SERVICE_PRODUCT_ATTRIBUTE = 'service_product';
+    protected const SERVICE_PRODUCT_ATTRIBUTE = 'service_product';
+
+    /**
+     * @var string
+     */
+    protected const IS_SERVICE_PRODUCT_ATTRIBUTE_VALUE = 'Yes';
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getServiceProductAttribute(): string
+    {
+        return static::SERVICE_PRODUCT_ATTRIBUTE;
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getIsServiceProductAttributeValue(): string
+    {
+        return static::IS_SERVICE_PRODUCT_ATTRIBUTE_VALUE;
+    }
 }

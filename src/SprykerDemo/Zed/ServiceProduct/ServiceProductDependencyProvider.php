@@ -8,7 +8,39 @@
 namespace SprykerDemo\Zed\ServiceProduct;
 
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
+use Spryker\Zed\Kernel\Container;
 
 class ServiceProductDependencyProvider extends AbstractBundleDependencyProvider
 {
+    /**
+     * @var string
+     */
+    public const FACADE_PRODUCT = 'FACADE_PRODUCT';
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    public function provideBusinessLayerDependencies(Container $container): Container
+    {
+        $container = parent::provideBusinessLayerDependencies($container);
+        $container = $this->addProductFacade($container);
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addProductFacade(Container $container): Container
+    {
+        $container->set(static::FACADE_PRODUCT, function (Container $container) {
+            return $container->getLocator()->product()->facade();
+        });
+
+        return $container;
+    }
 }

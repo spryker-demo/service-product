@@ -23,4 +23,17 @@ interface ServiceProductFacadeInterface
      * @return \ArrayObject<\Generated\Shared\Transfer\ShipmentMethodTransfer>
      */
     public function filterShipmentGroupMethods(ShipmentGroupTransfer $shipmentGroupTransfer): ArrayObject;
+
+    /**
+     * Specification:
+     * - Finds product by SKU.
+     * - Checks if product is a service product.
+     *
+     * @api
+     *
+     * @param string $productConcreteSku
+     *
+     * @return bool
+     */
+    public function checkIsServiceProductBySku(string $productConcreteSku): bool;
 }
