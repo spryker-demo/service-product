@@ -27,6 +27,6 @@ class ServiceProductFacade extends AbstractFacade implements ServiceProductFacad
      */
     public function filterShipmentGroupMethods(ShipmentGroupTransfer $shipmentGroupTransfer): ArrayObject
     {
-        return $this->getFactory()->createShipmentGroupMethodFilter()->filterShipmentMethods($shipmentGroupTransfer);
+        return $this->getFactory()->createShipmentGroupMethodFilter()->filterShipmentGroupMethods($shipmentGroupTransfer);
     }
 }

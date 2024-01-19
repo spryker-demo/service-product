@@ -29,7 +29,7 @@ class ServiceProductShipmentGroupMethodFilterPlugin extends AbstractPlugin imple
      * @param \Generated\Shared\Transfer\ShipmentGroupTransfer $shipmentGroupTransfer
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
-     * @return \ArrayObject|\Generated\Shared\Transfer\ShipmentMethodTransfer[]
+     * @return \ArrayObject<\Generated\Shared\Transfer\ShipmentMethodTransfer>
      */
     public function filterShipmentMethods(ShipmentGroupTransfer $shipmentGroupTransfer, QuoteTransfer $quoteTransfer): ArrayObject
     {
