@@ -40,7 +40,7 @@ class ShipmentGroupMethodFilter implements ShipmentGroupMethodFilterInterface
         foreach ($shipmentMethods as $shipmentMethodIndex => $shipmentMethodTransfer) {
             if ($shipmentMethodTransfer->getName() === ServiceProductConfig::SERVICE_PRODUCT_SHIPMENT_METHOD_NAME) {
                 if ($containsOnlyServiceProductItems) {
-                    return new ArrayObject($shipmentMethodTransfer);
+                    return new ArrayObject([$shipmentMethodTransfer]);
                 }
 
                 $shipmentMethods->offsetUnset($shipmentMethodIndex);
