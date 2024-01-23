@@ -37,14 +37,14 @@ class ServiceProductFacade extends AbstractFacade implements ServiceProductFacad
      *
      * @api
      *
-     * @param string $productConcreteSku
+     * @param int $idMerchantSalesOrderItem
      *
      * @return bool
      */
-    public function checkIsServiceProductBySku(string $productConcreteSku): bool
+    public function checkMerchantOrderItemIsServiceProduct(int $idMerchantSalesOrderItem): bool
     {
         return $this->getFactory()
             ->createServiceProductChecker()
-            ->checkIsServiceProductBySku($productConcreteSku);
+            ->checkMerchantOrderItemIsServiceProduct($idMerchantSalesOrderItem);
     }
 }

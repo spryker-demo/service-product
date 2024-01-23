@@ -7,48 +7,37 @@
 
 namespace SprykerDemo\Zed\ServiceProduct\Business\Checker;
 
-use Exception;
-use Spryker\Zed\Product\Business\ProductFacadeInterface;
+use SprykerDemo\Zed\ServiceProduct\Business\Reader\ServiceProductReaderInterface;
 use SprykerDemo\Zed\ServiceProduct\ServiceProductConfig;
 
 class ServiceProductChecker implements ServiceProductCheckerInterface
 {
     /**
-     * @var \Spryker\Zed\Product\Business\ProductFacadeInterface
+     * @var \SprykerDemo\Zed\ServiceProduct\Business\Reader\ServiceProductReaderInterface
      */
-    protected ProductFacadeInterface $productFacade;
+    protected ServiceProductReaderInterface $serviceProductReader;
 
     /**
-     * @var \SprykerDemo\Zed\ServiceProduct\ServiceProductConfig
+     * @param \SprykerDemo\Zed\ServiceProduct\Business\Reader\ServiceProductReaderInterface $serviceProductReader
      */
-    protected ServiceProductConfig $config;
-
-    /**
-     * @param \Spryker\Zed\Product\Business\ProductFacadeInterface $productFacade
-     * @param \SprykerDemo\Zed\ServiceProduct\ServiceProductConfig $config
-     */
-    public function __construct(
-        ProductFacadeInterface $productFacade,
-        ServiceProductConfig $config
-    ) {
-        $this->productFacade = $productFacade;
-        $this->config = $config;
+    public function __construct(ServiceProductReaderInterface $serviceProductReader)
+    {
+        $this->serviceProductReader = $serviceProductReader;
     }
 
     /**
-     * @param string $productConcreteSku
+     * @param int $idMerchantSalesOrderItem
      *
      * @return bool
      */
-    public function checkIsServiceProductBySku(string $productConcreteSku): bool
+    public function checkMerchantOrderItemIsServiceProduct(int $idMerchantSalesOrderItem): bool
     {
-        try {
-            $productConcreteTransfer = $this->productFacade->getProductConcrete($productConcreteSku);
-
-            return $this->checkIsServiceProductByAttributes($productConcreteTransfer->getAttributes());
-        } catch (Exception $exception) {
+        $productConcreteTransfer = $this->serviceProductReader->findProductConcreteByMerchantOrderItemId($idMerchantSalesOrderItem);
+        if (!$productConcreteTransfer) {
             return false;
         }
+
+        return $this->checkIsServiceProductByAttributes($productConcreteTransfer->getAttributes());
     }
 
     /**
@@ -58,11 +47,7 @@ class ServiceProductChecker implements ServiceProductCheckerInterface
      */
     public function checkIsServiceProductByAttributes(array $productAttributes): bool
     {
-        $serviceProductAttribute = $this->config->getServiceProductAttribute();
-        if (!isset($productAttributes[$serviceProductAttribute])) {
-            return false;
-        }
-
-        return $productAttributes[$serviceProductAttribute] === $this->config->getIsServiceProductAttributeValue();
+        return isset($productAttributes[ServiceProductConfig::SERVICE_PRODUCT_ATTRIBUTE])
+             && $productAttributes[ServiceProductConfig::SERVICE_PRODUCT_ATTRIBUTE] === ServiceProductConfig::IS_SERVICE_PRODUCT_ATTRIBUTE_VALUE;
     }
 }

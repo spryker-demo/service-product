@@ -26,14 +26,15 @@ interface ServiceProductFacadeInterface
 
     /**
      * Specification:
-     * - Finds product by SKU.
-     * - Checks if product is a service product.
+     * - Finds `MerchantOrderItemTransfer` by `$idMerchantOrderItem`
+     * - Finds product by merchant order item.
+     * - Checks product concrete is a service product by attributes.
      *
      * @api
      *
-     * @param string $productConcreteSku
+     * @param int $idMerchantSalesOrderItem
      *
      * @return bool
      */
-    public function checkIsServiceProductBySku(string $productConcreteSku): bool;
+    public function checkMerchantOrderItemIsServiceProduct(int $idMerchantSalesOrderItem): bool;
 }

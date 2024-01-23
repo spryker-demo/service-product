@@ -10,11 +10,11 @@ namespace SprykerDemo\Zed\ServiceProduct\Business\Checker;
 interface ServiceProductCheckerInterface
 {
     /**
-     * @param string $productConcreteSku
+     * @param int $idMerchantSalesOrderItem
      *
      * @return bool
      */
-    public function checkIsServiceProductBySku(string $productConcreteSku): bool;
+    public function checkMerchantOrderItemIsServiceProduct(int $idMerchantSalesOrderItem): bool;
 
     /**
      * @param array<string> $productAttributes
