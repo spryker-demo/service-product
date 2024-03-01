@@ -14,7 +14,7 @@ interface ServiceProductFacadeInterface
 {
     /**
      * Specification:
-     * - Filters non-available for service product shipment methods for each shipment group.
+     * - Filters out non-available shipment methods for service product in shipment group.
      *
      * @api
      *
@@ -28,7 +28,7 @@ interface ServiceProductFacadeInterface
      * Specification:
      * - Finds `MerchantOrderItemTransfer` by `$idMerchantOrderItem`
      * - Finds product by merchant order item.
-     * - Checks product concrete is a service product by attributes.
+     * - Checks if product concrete is a service product by attributes.
      *
      * @api
      *

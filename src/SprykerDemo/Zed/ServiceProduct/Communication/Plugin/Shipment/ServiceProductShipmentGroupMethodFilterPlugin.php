@@ -22,7 +22,7 @@ class ServiceProductShipmentGroupMethodFilterPlugin extends AbstractPlugin imple
 {
     /**
      * {@inheritDoc}
-     * - Filters available shipment methods for shipment group.
+     * - Filters out non-available shipment methods for service product in shipment group.
      *
      * @api
      *
