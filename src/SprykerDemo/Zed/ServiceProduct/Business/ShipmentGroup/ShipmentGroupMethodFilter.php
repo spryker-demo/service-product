@@ -35,19 +35,19 @@ class ShipmentGroupMethodFilter implements ShipmentGroupMethodFilterInterface
     public function filterShipmentGroupMethods(ShipmentGroupTransfer $shipmentGroupTransfer): ArrayObject
     {
         $shipmentMethods = $shipmentGroupTransfer->getAvailableShipmentMethodsOrFail()->getMethods();
+        $containsOnlyServiceProductItems = $this->shipmentMethodChecker->containsOnlyServiceProductItems($shipmentGroupTransfer);
 
-//        $containsOnlyServiceProductItems = $this->shipmentMethodChecker->containsOnlyServiceProductItems($shipmentGroupTransfer);
-//        if ($containsOnlyServiceProductItems) {
-//            return new ArrayObject([$shipmentMethods->getIterator()->current()]);
-//        }
-//
-//        foreach ($shipmentMethods as $shipmentMethodIndex => $shipmentMethodTransfer) {
-//            if ($shipmentMethodTransfer->getName() !== ServiceProductConfig::SERVICE_PRODUCT_SHIPMENT_METHOD_NAME) {
-//                continue;
-//            }
-//
-//            $shipmentMethods->offsetUnset($shipmentMethodIndex);
-//        }
+        foreach ($shipmentMethods as $shipmentMethodIndex => $shipmentMethodTransfer) {
+            if ($shipmentMethodTransfer->getName() !== ServiceProductConfig::SERVICE_PRODUCT_SHIPMENT_METHOD_NAME) {
+                continue;
+            }
+
+            if ($containsOnlyServiceProductItems) {
+                return new ArrayObject([$shipmentMethodTransfer]);
+            }
+
+            $shipmentMethods->offsetUnset($shipmentMethodIndex);
+        }
 
         return $shipmentMethods;
     }

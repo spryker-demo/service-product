@@ -14,7 +14,9 @@ interface ServiceProductFacadeInterface
 {
     /**
      * Specification:
-     * - Filters out non-available shipment methods for service product in shipment group.
+     * - Requires `ShipmentGroupTransfer.availableShipmentMethods` to be set.
+     * - Filters non-available shipment methods for service product items to be purchased.
+     * - Filters service product shipment method if in group items not only service products.
      *
      * @api
      *
