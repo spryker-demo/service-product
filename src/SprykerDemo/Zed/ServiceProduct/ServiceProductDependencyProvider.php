@@ -35,7 +35,6 @@ class ServiceProductDependencyProvider extends AbstractBundleDependencyProvider
      */
     public function provideBusinessLayerDependencies(Container $container): Container
     {
-        $container = parent::provideBusinessLayerDependencies($container);
         $container = $this->addProductFacade($container);
         $container = $this->addMerchantSalesOrderFacade($container);
 
@@ -49,7 +48,6 @@ class ServiceProductDependencyProvider extends AbstractBundleDependencyProvider
      */
     public function providePersistenceLayerDependencies(Container $container): Container
     {
-        $container = parent::providePersistenceLayerDependencies($container);
         $container = $this->addSalesOrderItemQuery($container);
 
         return $container;
