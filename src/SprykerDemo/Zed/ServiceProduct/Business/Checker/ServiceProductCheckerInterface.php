@@ -17,6 +17,13 @@ interface ServiceProductCheckerInterface
     public function checkMerchantOrderItemIsServiceProduct(int $idMerchantSalesOrderItem): bool;
 
     /**
+     * @param int $idSalesOrderItem
+     *
+     * @return bool
+     */
+    public function checkSalesOrderItemIsServiceProduct(int $idSalesOrderItem): bool;
+
+    /**
      * @param array<string> $productAttributes
      *
      * @return bool

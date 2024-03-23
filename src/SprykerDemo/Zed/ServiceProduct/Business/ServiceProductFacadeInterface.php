@@ -30,7 +30,7 @@ interface ServiceProductFacadeInterface
      * Specification:
      * - Finds `MerchantOrderItemTransfer` by `$idMerchantOrderItem`
      * - Finds product by merchant order item.
-     * - Checks if product concrete is a service product by attributes.
+     * - Checks if product is a service product by attributes.
      *
      * @api
      *
@@ -39,4 +39,17 @@ interface ServiceProductFacadeInterface
      * @return bool
      */
     public function checkMerchantOrderItemIsServiceProduct(int $idMerchantSalesOrderItem): bool;
+
+    /**
+     * Specification:
+     * - Finds product by sales order item.
+     * - Checks if product is a service product by attributes.
+     *
+     * @api
+     *
+     * @param int $idSalesOrderItem
+     *
+     * @return bool
+     */
+    public function checkSalesOrderItemIsServiceProduct(int $idSalesOrderItem): bool;
 }

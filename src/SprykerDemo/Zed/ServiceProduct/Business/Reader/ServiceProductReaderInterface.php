@@ -17,4 +17,11 @@ interface ServiceProductReaderInterface
      * @return \Generated\Shared\Transfer\ProductConcreteTransfer|null
      */
     public function findProductConcreteByMerchantOrderItemId(int $idMerchantSalesOrderItem): ?ProductConcreteTransfer;
+
+    /**
+     * @param int $idSalesOrderItem
+     *
+     * @return \Generated\Shared\Transfer\ProductConcreteTransfer|null
+     */
+    public function findProductConcreteByIdSalesOrderItem(int $idSalesOrderItem): ?ProductConcreteTransfer;
 }

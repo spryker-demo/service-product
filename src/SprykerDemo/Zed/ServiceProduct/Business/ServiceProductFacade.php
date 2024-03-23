@@ -47,4 +47,20 @@ class ServiceProductFacade extends AbstractFacade implements ServiceProductFacad
             ->createServiceProductChecker()
             ->checkMerchantOrderItemIsServiceProduct($idMerchantSalesOrderItem);
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param int $idSalesOrderItem
+     *
+     * @return bool
+     */
+    public function checkSalesOrderItemIsServiceProduct(int $idSalesOrderItem): bool
+    {
+        return $this->getFactory()
+            ->createServiceProductChecker()
+            ->checkSalesOrderItemIsServiceProduct($idSalesOrderItem);
+    }
 }

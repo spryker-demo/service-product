@@ -41,6 +41,21 @@ class ServiceProductChecker implements ServiceProductCheckerInterface
     }
 
     /**
+     * @param int $idSalesOrderItem
+     *
+     * @return bool
+     */
+    public function checkSalesOrderItemIsServiceProduct(int $idSalesOrderItem): bool
+    {
+        $productConcreteTransfer = $this->serviceProductReader->findProductConcreteByIdSalesOrderItem($idSalesOrderItem);
+        if (!$productConcreteTransfer) {
+            return false;
+        }
+
+        return $this->checkIsServiceProductByAttributes($productConcreteTransfer->getAttributes());
+    }
+
+    /**
      * @param array<string> $productAttributes
      *
      * @return bool

@@ -58,7 +58,17 @@ class ServiceProductReader implements ServiceProductReaderInterface
             return null;
         }
 
-        $productConcreteSku = $this->repository->findProductSkuBySalesOrderItemId($merchantOrderItemTransfer->getIdOrderItem());
+        return $this->findProductConcreteByIdSalesOrderItem($merchantOrderItemTransfer->getIdOrderItem());
+    }
+
+    /**
+     * @param int $idSalesOrderItem
+     *
+     * @return \Generated\Shared\Transfer\ProductConcreteTransfer|null
+     */
+    public function findProductConcreteByIdSalesOrderItem(int $idSalesOrderItem): ?ProductConcreteTransfer
+    {
+        $productConcreteSku = $this->repository->findProductSkuBySalesOrderItemId($idSalesOrderItem);
         if (!$productConcreteSku) {
             return null;
         }
