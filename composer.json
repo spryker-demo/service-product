@@ -13,6 +13,7 @@
     },
     "require-dev": {
         "spryker/code-sniffer": "^0.17.18",
+        "spryker/oms": "^11.27.0",
         "spryker/state-machine": "^2.18.0"
     },
     "autoload": {
@@ -40,6 +41,7 @@
         "sort-packages": true
     },
     "suggest": {
+        "spryker/oms": "ADD SUGGEST DESCRIPTION",
         "spryker/state-machine": "^2.18.0"
     }
 }
