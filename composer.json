@@ -41,7 +41,7 @@
         "sort-packages": true
     },
     "suggest": {
-        "spryker/oms": "ADD SUGGEST DESCRIPTION",
-        "spryker/state-machine": "^2.18.0"
+        "spryker/oms": "Needed for condition plugins.",
+        "spryker/state-machine": "Needed for condition plugins."
     }
 }
