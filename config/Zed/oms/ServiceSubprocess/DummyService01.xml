@@ -6,11 +6,11 @@
 >
     <process name="Service">
         <states>
-            <state name="waiting for delivering by merchant"/>
+            <state name="waiting for delivery by merchant"/>
         </states>
 
         <events>
-            <event name="check-is-service" onEnter="true"/>
+            <event name="check is service" onEnter="true"/>
         </events>
     </process>
 </statemachine>
