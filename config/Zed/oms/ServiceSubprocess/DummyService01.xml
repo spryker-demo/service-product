@@ -6,7 +6,7 @@
 >
     <process name="Service">
         <states>
-            <state name="waiting for delivery by merchant"/>
+            <state name="waiting for delivery by merchant" display="oms.state.waiting-for-delivery-by-merchant"/>
         </states>
 
         <events>
