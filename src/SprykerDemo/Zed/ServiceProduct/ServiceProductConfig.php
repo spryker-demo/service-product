@@ -12,11 +12,9 @@ use Spryker\Zed\Kernel\AbstractBundleConfig;
 class ServiceProductConfig extends AbstractBundleConfig
 {
     /**
-     * @uses \Spryker\Shared\Shipment\ShipmentConfig::SHIPMENT_METHOD_NAME_NO_SHIPMENT
-     *
      * @var string
      */
-    public const SERVICE_PRODUCT_SHIPMENT_METHOD_NAME = 'NoShipment';
+    public const SERVICE_PRODUCT_SHIPMENT_METHOD_NAME = 'ServiceShipment';
 
     /**
      * @var string
