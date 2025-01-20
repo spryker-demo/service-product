@@ -7,8 +7,8 @@
 
 namespace SprykerDemo\Zed\ServiceProduct\Business\Checker;
 
+use SprykerDemo\Service\ServiceProduct\ServiceProductServiceInterface;
 use SprykerDemo\Zed\ServiceProduct\Business\Reader\ServiceProductReaderInterface;
-use SprykerDemo\Zed\ServiceProduct\ServiceProductConfig;
 
 class ServiceProductChecker implements ServiceProductCheckerInterface
 {
@@ -18,11 +18,20 @@ class ServiceProductChecker implements ServiceProductCheckerInterface
     protected ServiceProductReaderInterface $serviceProductReader;
 
     /**
-     * @param \SprykerDemo\Zed\ServiceProduct\Business\Reader\ServiceProductReaderInterface $serviceProductReader
+     * @var \SprykerDemo\Service\ServiceProduct\ServiceProductServiceInterface
      */
-    public function __construct(ServiceProductReaderInterface $serviceProductReader)
-    {
+    protected ServiceProductServiceInterface $serviceProductService;
+
+    /**
+     * @param \SprykerDemo\Zed\ServiceProduct\Business\Reader\ServiceProductReaderInterface $serviceProductReader
+     * @param \SprykerDemo\Service\ServiceProduct\ServiceProductServiceInterface $serviceProductService
+     */
+    public function __construct(
+        ServiceProductReaderInterface $serviceProductReader,
+        ServiceProductServiceInterface $serviceProductService
+    ) {
         $this->serviceProductReader = $serviceProductReader;
+        $this->serviceProductService = $serviceProductService;
     }
 
     /**
@@ -37,7 +46,7 @@ class ServiceProductChecker implements ServiceProductCheckerInterface
             return false;
         }
 
-        return $this->checkIsServiceProductByAttributes($productConcreteTransfer->getAttributes());
+        return $this->serviceProductService->isServiceProduct($productConcreteTransfer->getAttributes());
     }
 
     /**
@@ -52,17 +61,6 @@ class ServiceProductChecker implements ServiceProductCheckerInterface
             return false;
         }
 
-        return $this->checkIsServiceProductByAttributes($productConcreteTransfer->getAttributes());
-    }
-
-    /**
-     * @param array<string> $productAttributes
-     *
-     * @return bool
-     */
-    public function checkIsServiceProductByAttributes(array $productAttributes): bool
-    {
-        return isset($productAttributes[ServiceProductConfig::SERVICE_PRODUCT_ATTRIBUTE])
-             && $productAttributes[ServiceProductConfig::SERVICE_PRODUCT_ATTRIBUTE] === ServiceProductConfig::IS_SERVICE_PRODUCT_ATTRIBUTE_VALUE;
+        return $this->serviceProductService->isServiceProduct($productConcreteTransfer->getAttributes());
     }
 }

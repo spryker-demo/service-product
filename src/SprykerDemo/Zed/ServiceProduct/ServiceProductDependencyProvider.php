@@ -26,6 +26,11 @@ class ServiceProductDependencyProvider extends AbstractBundleDependencyProvider
     /**
      * @var string
      */
+    public const SERVICE_SERVICE_PRODUCT = 'SERVICE_SERVICE_PRODUCT';
+
+    /**
+     * @var string
+     */
     public const QUERY_SALES_ORDER_ITEM = 'QUERY_SALES_ORDER_ITEM';
 
     /**
@@ -37,6 +42,7 @@ class ServiceProductDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container = $this->addProductFacade($container);
         $container = $this->addMerchantSalesOrderFacade($container);
+        $container = $this->addServiceProductService($container);
 
         return $container;
     }
@@ -76,6 +82,20 @@ class ServiceProductDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container->set(static::FACADE_MERCHANT_SALES_ORDER, function (Container $container) {
             return $container->getLocator()->merchantSalesOrder()->facade();
+        });
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addServiceProductService(Container $container): Container
+    {
+        $container->set(static::SERVICE_SERVICE_PRODUCT, function (Container $container) {
+            return $container->getLocator()->serviceProduct()->service();
         });
 
         return $container;

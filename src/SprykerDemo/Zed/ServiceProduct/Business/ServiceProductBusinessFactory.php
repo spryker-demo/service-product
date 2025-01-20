@@ -10,6 +10,7 @@ namespace SprykerDemo\Zed\ServiceProduct\Business;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use Spryker\Zed\MerchantSalesOrder\Business\MerchantSalesOrderFacadeInterface;
 use Spryker\Zed\Product\Business\ProductFacadeInterface;
+use SprykerDemo\Service\ServiceProduct\ServiceProductServiceInterface;
 use SprykerDemo\Zed\ServiceProduct\Business\Checker\ServiceProductChecker;
 use SprykerDemo\Zed\ServiceProduct\Business\Checker\ServiceProductCheckerInterface;
 use SprykerDemo\Zed\ServiceProduct\Business\Reader\ServiceProductReader;
@@ -39,7 +40,7 @@ class ServiceProductBusinessFactory extends AbstractBusinessFactory
      */
     public function createShipmentMethodChecker(): ShipmentMethodCheckerInterface
     {
-        return new ShipmentMethodChecker($this->createServiceProductChecker());
+        return new ShipmentMethodChecker($this->getServiceProductService());
     }
 
     /**
@@ -49,6 +50,7 @@ class ServiceProductBusinessFactory extends AbstractBusinessFactory
     {
         return new ServiceProductChecker(
             $this->createServiceProductReader(),
+            $this->getServiceProductService(),
         );
     }
 
@@ -78,5 +80,13 @@ class ServiceProductBusinessFactory extends AbstractBusinessFactory
     public function getMerchantSalesOrderFacade(): MerchantSalesOrderFacadeInterface
     {
         return $this->getProvidedDependency(ServiceProductDependencyProvider::FACADE_MERCHANT_SALES_ORDER);
+    }
+
+    /**
+     * @return \SprykerDemo\Service\ServiceProduct\ServiceProductServiceInterface
+     */
+    public function getServiceProductService(): ServiceProductServiceInterface
+    {
+        return $this->getProvidedDependency(ServiceProductDependencyProvider::SERVICE_SERVICE_PRODUCT);
     }
 }

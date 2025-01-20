@@ -5,14 +5,19 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerDemo\Zed\ServiceProduct;
+namespace SprykerDemo\Service\ServiceProduct;
 
-use Spryker\Zed\Kernel\AbstractBundleConfig;
+use Spryker\Service\Kernel\AbstractBundleConfig;
 
 class ServiceProductConfig extends AbstractBundleConfig
 {
     /**
      * @var string
      */
-    public const SERVICE_PRODUCT_SHIPMENT_METHOD_NAME = 'ServiceShipment';
+    public const SERVICE_PRODUCT_ATTRIBUTE = 'service_product';
+
+    /**
+     * @var string
+     */
+    public const SERVICE_PRODUCT_ATTRIBUTE_VALUE_YES = 'Yes';
 }

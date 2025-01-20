@@ -22,11 +22,4 @@ interface ServiceProductCheckerInterface
      * @return bool
      */
     public function checkSalesOrderItemIsServiceProduct(int $idSalesOrderItem): bool;
-
-    /**
-     * @param array<string> $productAttributes
-     *
-     * @return bool
-     */
-    public function checkIsServiceProductByAttributes(array $productAttributes): bool;
 }

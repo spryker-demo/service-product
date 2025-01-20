@@ -8,21 +8,21 @@
 namespace SprykerDemo\Zed\ServiceProduct\Business\ShipmentMethod;
 
 use Generated\Shared\Transfer\ShipmentGroupTransfer;
-use SprykerDemo\Zed\ServiceProduct\Business\Checker\ServiceProductCheckerInterface;
+use SprykerDemo\Service\ServiceProduct\ServiceProductServiceInterface;
 
 class ShipmentMethodChecker implements ShipmentMethodCheckerInterface
 {
     /**
-     * @var \SprykerDemo\Zed\ServiceProduct\Business\Checker\ServiceProductCheckerInterface
+     * @var \SprykerDemo\Service\ServiceProduct\ServiceProductServiceInterface
      */
-    protected ServiceProductCheckerInterface $serviceProductChecker;
+    protected ServiceProductServiceInterface $serviceProductService;
 
     /**
-     * @param \SprykerDemo\Zed\ServiceProduct\Business\Checker\ServiceProductCheckerInterface $serviceProductChecker
+     * @param \SprykerDemo\Service\ServiceProduct\ServiceProductServiceInterface $serviceProductService
      */
-    public function __construct(ServiceProductCheckerInterface $serviceProductChecker)
+    public function __construct(ServiceProductServiceInterface $serviceProductService)
     {
-        $this->serviceProductChecker = $serviceProductChecker;
+        $this->serviceProductService = $serviceProductService;
     }
 
     /**
@@ -33,7 +33,7 @@ class ShipmentMethodChecker implements ShipmentMethodCheckerInterface
     public function containsOnlyServiceProductItems(ShipmentGroupTransfer $shipmentGroupTransfer): bool
     {
         foreach ($shipmentGroupTransfer->getItems() as $itemTransfer) {
-            if (!$this->serviceProductChecker->checkIsServiceProductByAttributes($itemTransfer->getConcreteAttributes())) {
+            if (!$this->serviceProductService->isServiceProduct($itemTransfer->getConcreteAttributes())) {
                 return false;
             }
         }
