@@ -12,16 +12,34 @@ use SprykerDemo\Service\ServiceProduct\ServiceProductConfig;
 class ServiceProductChecker implements ServiceProductCheckerInterface
 {
     /**
+     * @var \SprykerDemo\Service\ServiceProduct\ServiceProductConfig
+     */
+    protected ServiceProductConfig $serviceProductConfig;
+
+    /**
+     * @param \SprykerDemo\Service\ServiceProduct\ServiceProductConfig $serviceProductConfig
+     */
+    public function __construct(ServiceProductConfig $serviceProductConfig)
+    {
+        $this->serviceProductConfig = $serviceProductConfig;
+    }
+
+    /**
      * @param array<string, string> $productAttributes
      *
      * @return bool
      */
     public function isServiceProduct(array $productAttributes): bool
     {
-        if (!isset($productAttributes[ServiceProductConfig::SERVICE_PRODUCT_ATTRIBUTE])) {
+        $serviceProductAttribute = $this->serviceProductConfig->getServiceProductAttribute();
+
+        if (!isset($productAttributes[$serviceProductAttribute])) {
             return false;
         }
 
-        return $productAttributes[ServiceProductConfig::SERVICE_PRODUCT_ATTRIBUTE] === ServiceProductConfig::SERVICE_PRODUCT_ATTRIBUTE_VALUE_YES;
+        return in_array(
+            $productAttributes[$serviceProductAttribute],
+            $this->serviceProductConfig->getIsServiceProductAttributeLocalizedValues(),
+        );
     }
 }

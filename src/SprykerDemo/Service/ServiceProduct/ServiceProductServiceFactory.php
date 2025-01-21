@@ -11,6 +11,9 @@ use Spryker\Service\Kernel\AbstractServiceFactory;
 use SprykerDemo\Service\ServiceProduct\Checker\ServiceProductChecker;
 use SprykerDemo\Service\ServiceProduct\Checker\ServiceProductCheckerInterface;
 
+/**
+ * @method \SprykerDemo\Service\ServiceProduct\ServiceProductConfig getConfig()
+ */
 class ServiceProductServiceFactory extends AbstractServiceFactory
 {
     /**
@@ -18,6 +21,6 @@ class ServiceProductServiceFactory extends AbstractServiceFactory
      */
     public function createServiceProductChecker(): ServiceProductCheckerInterface
     {
-        return new ServiceProductChecker();
+        return new ServiceProductChecker($this->getConfig());
     }
 }
