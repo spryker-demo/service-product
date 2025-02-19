@@ -15,7 +15,7 @@ class ServiceProductDependencyProvider extends AbstractDependencyProvider
     /**
      * @var string
      */
-    public const SERVICE_PRODUCT_SERVICE = 'SERVICE_PRODUCT_SERVICE';
+    public const SERVICE_SERVICE_PRODUCT = 'SERVICE_SERVICE_PRODUCT';
 
     /**
      * @param \Spryker\Client\Kernel\Container $container
@@ -36,7 +36,7 @@ class ServiceProductDependencyProvider extends AbstractDependencyProvider
      */
     protected function addServiceProductService(Container $container): Container
     {
-        $container->set(static::SERVICE_PRODUCT_SERVICE, function (Container $container) {
+        $container->set(static::SERVICE_SERVICE_PRODUCT, function (Container $container) {
             return $container->getLocator()->serviceProduct()->service();
         });
 

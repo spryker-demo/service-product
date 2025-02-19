@@ -29,6 +29,6 @@ class ServiceProductFactory extends AbstractFactory
      */
     public function getServiceProductService(): ServiceProductServiceInterface
     {
-        return $this->getProvidedDependency(ServiceProductDependencyProvider::SERVICE_PRODUCT_SERVICE);
+        return $this->getProvidedDependency(ServiceProductDependencyProvider::SERVICE_SERVICE_PRODUCT);
     }
 }
