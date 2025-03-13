@@ -8,6 +8,7 @@
 namespace SprykerDemo\Client\ServiceProduct\Expander;
 
 use Generated\Shared\Transfer\ProductViewTransfer;
+use Generated\Shared\Transfer\RawProductAttributesTransfer;
 use SprykerDemo\Service\ServiceProduct\ServiceProductServiceInterface;
 
 class ProductViewServiceProductExpander implements ProductViewServiceProductExpanderInterface
@@ -37,7 +38,8 @@ class ProductViewServiceProductExpander implements ProductViewServiceProductExpa
             return $productViewTransfer;
         }
 
-        $isServiceProduct = $this->serviceProductService->isServiceProduct($productAttributes);
+        $rawProductAttributesTransfer = (new RawProductAttributesTransfer())->setConcreteAttributes($productAttributes);
+        $isServiceProduct = $this->serviceProductService->isServiceProduct($rawProductAttributesTransfer);
 
         return $productViewTransfer->setIsServiceProduct($isServiceProduct);
     }

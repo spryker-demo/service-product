@@ -8,8 +8,8 @@
 namespace SprykerDemo\Service\ServiceProduct;
 
 use Spryker\Service\Kernel\AbstractServiceFactory;
-use SprykerDemo\Service\ServiceProduct\Checker\ServiceProductChecker;
-use SprykerDemo\Service\ServiceProduct\Checker\ServiceProductCheckerInterface;
+use SprykerDemo\Service\ServiceProduct\Checker\ServiceProductDetector;
+use SprykerDemo\Service\ServiceProduct\Checker\ServiceProductDetectorInterface;
 
 /**
  * @method \SprykerDemo\Service\ServiceProduct\ServiceProductConfig getConfig()
@@ -17,10 +17,10 @@ use SprykerDemo\Service\ServiceProduct\Checker\ServiceProductCheckerInterface;
 class ServiceProductServiceFactory extends AbstractServiceFactory
 {
     /**
-     * @return \SprykerDemo\Service\ServiceProduct\Checker\ServiceProductCheckerInterface
+     * @return \SprykerDemo\Service\ServiceProduct\Checker\ServiceProductDetectorInterface
      */
-    public function createServiceProductChecker(): ServiceProductCheckerInterface
+    public function createServiceProductDetector(): ServiceProductDetectorInterface
     {
-        return new ServiceProductChecker($this->getConfig());
+        return new ServiceProductDetector($this->getConfig());
     }
 }

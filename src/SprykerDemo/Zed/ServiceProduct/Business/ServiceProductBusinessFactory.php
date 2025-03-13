@@ -11,8 +11,8 @@ use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use Spryker\Zed\MerchantSalesOrder\Business\MerchantSalesOrderFacadeInterface;
 use Spryker\Zed\Product\Business\ProductFacadeInterface;
 use SprykerDemo\Service\ServiceProduct\ServiceProductServiceInterface;
-use SprykerDemo\Zed\ServiceProduct\Business\Checker\ServiceProductChecker;
-use SprykerDemo\Zed\ServiceProduct\Business\Checker\ServiceProductCheckerInterface;
+use SprykerDemo\Zed\ServiceProduct\Business\Checker\ServiceProductDetector;
+use SprykerDemo\Zed\ServiceProduct\Business\Checker\ServiceProductDetectorInterface;
 use SprykerDemo\Zed\ServiceProduct\Business\Reader\ServiceProductReader;
 use SprykerDemo\Zed\ServiceProduct\Business\Reader\ServiceProductReaderInterface;
 use SprykerDemo\Zed\ServiceProduct\Business\ShipmentGroup\ShipmentGroupMethodFilter;
@@ -44,11 +44,11 @@ class ServiceProductBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerDemo\Zed\ServiceProduct\Business\Checker\ServiceProductCheckerInterface
+     * @return \SprykerDemo\Zed\ServiceProduct\Business\Checker\ServiceProductDetectorInterface
      */
-    public function createServiceProductChecker(): ServiceProductCheckerInterface
+    public function createServiceProductDetector(): ServiceProductDetectorInterface
     {
-        return new ServiceProductChecker(
+        return new ServiceProductDetector(
             $this->createServiceProductReader(),
             $this->getServiceProductService(),
         );

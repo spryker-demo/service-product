@@ -7,17 +7,19 @@
 
 namespace SprykerDemo\Service\ServiceProduct;
 
+use Generated\Shared\Transfer\RawProductAttributesTransfer;
+
 interface ServiceProductServiceInterface
 {
     /**
      * Specification:
-     * - Checks if product is a service product.
+     * - Checks if product is a service product based on its attributes.
      *
      * @api
      *
-     * @param array<string, string> $productAttributes
+     * @param RawProductAttributesTransfer $rawProductAttributesTransfer
      *
      * @return bool
      */
-    public function isServiceProduct(array $productAttributes): bool;
+    public function isServiceProduct(RawProductAttributesTransfer $rawProductAttributesTransfer): bool;
 }

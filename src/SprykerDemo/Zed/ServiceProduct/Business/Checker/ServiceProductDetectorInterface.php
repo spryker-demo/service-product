@@ -7,7 +7,7 @@
 
 namespace SprykerDemo\Zed\ServiceProduct\Business\Checker;
 
-interface ServiceProductCheckerInterface
+interface ServiceProductDetectorInterface
 {
     /**
      * @param int $idMerchantSalesOrderItem

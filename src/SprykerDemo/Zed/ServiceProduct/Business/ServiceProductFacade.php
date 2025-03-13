@@ -44,7 +44,7 @@ class ServiceProductFacade extends AbstractFacade implements ServiceProductFacad
     public function checkMerchantOrderItemIsServiceProduct(int $idMerchantSalesOrderItem): bool
     {
         return $this->getFactory()
-            ->createServiceProductChecker()
+            ->createServiceProductDetector()
             ->checkMerchantOrderItemIsServiceProduct($idMerchantSalesOrderItem);
     }
 
@@ -60,7 +60,7 @@ class ServiceProductFacade extends AbstractFacade implements ServiceProductFacad
     public function checkSalesOrderItemIsServiceProduct(int $idSalesOrderItem): bool
     {
         return $this->getFactory()
-            ->createServiceProductChecker()
+            ->createServiceProductDetector()
             ->checkSalesOrderItemIsServiceProduct($idSalesOrderItem);
     }
 }

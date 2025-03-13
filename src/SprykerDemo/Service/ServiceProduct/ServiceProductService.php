@@ -7,6 +7,7 @@
 
 namespace SprykerDemo\Service\ServiceProduct;
 
+use Generated\Shared\Transfer\RawProductAttributesTransfer;
 use Spryker\Service\Kernel\AbstractService;
 
 /**
@@ -19,14 +20,14 @@ class ServiceProductService extends AbstractService implements ServiceProductSer
      *
      * @api
      *
-     * @param array<string, string> $productAttributes
+     * @param RawProductAttributesTransfer $rawProductAttributesTransfer
      *
      * @return bool
      */
-    public function isServiceProduct(array $productAttributes): bool
+    public function isServiceProduct(RawProductAttributesTransfer $rawProductAttributesTransfer): bool
     {
         return $this->getFactory()
-            ->createServiceProductChecker()
-            ->isServiceProduct($productAttributes);
+            ->createServiceProductDetector()
+            ->isServiceProduct($rawProductAttributesTransfer);
     }
 }

@@ -7,10 +7,12 @@
 
 namespace SprykerDemo\Zed\ServiceProduct\Business\Checker;
 
+use Generated\Shared\Transfer\ProductConcreteTransfer;
+use Generated\Shared\Transfer\RawProductAttributesTransfer;
 use SprykerDemo\Service\ServiceProduct\ServiceProductServiceInterface;
 use SprykerDemo\Zed\ServiceProduct\Business\Reader\ServiceProductReaderInterface;
 
-class ServiceProductChecker implements ServiceProductCheckerInterface
+class ServiceProductDetector implements ServiceProductDetectorInterface
 {
     /**
      * @var \SprykerDemo\Zed\ServiceProduct\Business\Reader\ServiceProductReaderInterface
@@ -46,7 +48,9 @@ class ServiceProductChecker implements ServiceProductCheckerInterface
             return false;
         }
 
-        return $this->serviceProductService->isServiceProduct($productConcreteTransfer->getAttributes());
+        $rawProductAttributesTransfer = $this->createRawProductAttributesTransfer($productConcreteTransfer);
+
+        return $this->serviceProductService->isServiceProduct($rawProductAttributesTransfer);
     }
 
     /**
@@ -61,6 +65,18 @@ class ServiceProductChecker implements ServiceProductCheckerInterface
             return false;
         }
 
-        return $this->serviceProductService->isServiceProduct($productConcreteTransfer->getAttributes());
+        $rawProductAttributesTransfer = $this->createRawProductAttributesTransfer($productConcreteTransfer);
+
+        return $this->serviceProductService->isServiceProduct($rawProductAttributesTransfer);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
+     *
+     * @return \Generated\Shared\Transfer\RawProductAttributesTransfer
+     */
+    protected function createRawProductAttributesTransfer(ProductConcreteTransfer $productConcreteTransfer): RawProductAttributesTransfer
+    {
+        return (new RawProductAttributesTransfer())->setConcreteAttributes($productConcreteTransfer->getAttributes());
     }
 }

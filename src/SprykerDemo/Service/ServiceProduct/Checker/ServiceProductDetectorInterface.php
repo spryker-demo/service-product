@@ -7,12 +7,14 @@
 
 namespace SprykerDemo\Service\ServiceProduct\Checker;
 
-interface ServiceProductCheckerInterface
+use Generated\Shared\Transfer\RawProductAttributesTransfer;
+
+interface ServiceProductDetectorInterface
 {
     /**
-     * @param array<string, string> $productAttributes
+     * @param RawProductAttributesTransfer $rawProductAttributesTransfer
      *
      * @return bool
      */
-    public function isServiceProduct(array $productAttributes): bool;
+    public function isServiceProduct(RawProductAttributesTransfer $rawProductAttributesTransfer): bool;
 }

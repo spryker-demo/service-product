@@ -5,4 +5,8 @@
         <property name="isServiceProduct" type="bool"/>
     </transfer>
 
+    <transfer name="RawProductAttributes">
+        <property name="concreteAttributes" type="array" singular="concreteAttribute"/>
+    </transfer>
+
 </transfers>
