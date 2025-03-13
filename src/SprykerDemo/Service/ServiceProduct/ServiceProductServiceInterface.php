@@ -17,7 +17,7 @@ interface ServiceProductServiceInterface
      *
      * @api
      *
-     * @param RawProductAttributesTransfer $rawProductAttributesTransfer
+     * @param \Generated\Shared\Transfer\RawProductAttributesTransfer $rawProductAttributesTransfer
      *
      * @return bool
      */

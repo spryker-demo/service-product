@@ -26,7 +26,7 @@ class ServiceProductDetector implements ServiceProductDetectorInterface
     }
 
     /**
-     * @param RawProductAttributesTransfer $rawProductAttributesTransfer
+     * @param \Generated\Shared\Transfer\RawProductAttributesTransfer $rawProductAttributesTransfer
      *
      * @return bool
      */

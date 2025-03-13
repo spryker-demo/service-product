@@ -12,7 +12,7 @@ use Generated\Shared\Transfer\RawProductAttributesTransfer;
 interface ServiceProductDetectorInterface
 {
     /**
-     * @param RawProductAttributesTransfer $rawProductAttributesTransfer
+     * @param \Generated\Shared\Transfer\RawProductAttributesTransfer $rawProductAttributesTransfer
      *
      * @return bool
      */

@@ -20,7 +20,7 @@ class ServiceProductService extends AbstractService implements ServiceProductSer
      *
      * @api
      *
-     * @param RawProductAttributesTransfer $rawProductAttributesTransfer
+     * @param \Generated\Shared\Transfer\RawProductAttributesTransfer $rawProductAttributesTransfer
      *
      * @return bool
      */
