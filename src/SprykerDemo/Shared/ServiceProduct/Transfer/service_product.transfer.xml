@@ -5,6 +5,18 @@
         <property name="isServiceProduct" type="bool"/>
     </transfer>
 
+    <transfer name="ProductConcrete">
+        <property name="isServiceProduct" type="bool"/>
+    </transfer>
+
+    <transfer name="ProductConcreteStorage">
+        <property name="isServiceProduct" type="bool"/>
+    </transfer>
+
+    <transfer name="Item">
+        <property name="isServiceProduct" type="bool"/>
+    </transfer>
+
     <transfer name="RawProductAttributes">
         <property name="concreteAttributes" type="array" singular="concreteAttribute"/>
     </transfer>

@@ -18,9 +18,8 @@ class IsServiceProductConditionPlugin extends AbstractPlugin implements Conditio
 {
     /**
      * {@inheritDoc}
-     * - Finds `MerchantOrderItemTransfer` by `$idMerchantOrderItem`
-     * - Finds product by merchant order item.
-     * - Checks product is a service product by attributes.
+     * - Finds product concrete by merchant order item.
+     * - Returns value of service product flag.
      *
      * @api
      *

@@ -7,7 +7,6 @@
 
 namespace SprykerDemo\Zed\ServiceProduct;
 
-use Orm\Zed\Sales\Persistence\SpySalesOrderItemQuery;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
 
@@ -21,17 +20,12 @@ class ServiceProductDependencyProvider extends AbstractBundleDependencyProvider
     /**
      * @var string
      */
+    public const FACADE_SALES = 'FACADE_SALES';
+
+    /**
+     * @var string
+     */
     public const FACADE_MERCHANT_SALES_ORDER = 'FACADE_MERCHANT_SALES_ORDER';
-
-    /**
-     * @var string
-     */
-    public const SERVICE_SERVICE_PRODUCT = 'SERVICE_SERVICE_PRODUCT';
-
-    /**
-     * @var string
-     */
-    public const QUERY_SALES_ORDER_ITEM = 'QUERY_SALES_ORDER_ITEM';
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container
@@ -41,8 +35,8 @@ class ServiceProductDependencyProvider extends AbstractBundleDependencyProvider
     public function provideBusinessLayerDependencies(Container $container): Container
     {
         $container = $this->addProductFacade($container);
+        $container = $this->addSalesFacade($container);
         $container = $this->addMerchantSalesOrderFacade($container);
-        $container = $this->addServiceProductService($container);
 
         return $container;
     }
@@ -52,9 +46,9 @@ class ServiceProductDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return \Spryker\Zed\Kernel\Container
      */
-    public function providePersistenceLayerDependencies(Container $container): Container
+    public function provideCommunicationLayerDependencies(Container $container): Container
     {
-        $container = $this->addSalesOrderItemQuery($container);
+        $container = $this->addProductFacade($container);
 
         return $container;
     }
@@ -78,39 +72,25 @@ class ServiceProductDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return \Spryker\Zed\Kernel\Container
      */
+    protected function addSalesFacade(Container $container): Container
+    {
+        $container->set(static::FACADE_SALES, function (Container $container) {
+            return $container->getLocator()->sales()->facade();
+        });
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
     protected function addMerchantSalesOrderFacade(Container $container): Container
     {
         $container->set(static::FACADE_MERCHANT_SALES_ORDER, function (Container $container) {
             return $container->getLocator()->merchantSalesOrder()->facade();
         });
-
-        return $container;
-    }
-
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Kernel\Container
-     */
-    protected function addServiceProductService(Container $container): Container
-    {
-        $container->set(static::SERVICE_SERVICE_PRODUCT, function (Container $container) {
-            return $container->getLocator()->serviceProduct()->service();
-        });
-
-        return $container;
-    }
-
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Kernel\Container
-     */
-    protected function addSalesOrderItemQuery(Container $container): Container
-    {
-        $container->set(static::QUERY_SALES_ORDER_ITEM, $container->factory(function () {
-            return SpySalesOrderItemQuery::create();
-        }));
 
         return $container;
     }

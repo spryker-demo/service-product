@@ -8,6 +8,7 @@
 namespace SprykerDemo\Zed\ServiceProduct\Business;
 
 use ArrayObject;
+use Generated\Shared\Transfer\CartChangeTransfer;
 use Generated\Shared\Transfer\ShipmentGroupTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
@@ -44,8 +45,8 @@ class ServiceProductFacade extends AbstractFacade implements ServiceProductFacad
     public function checkMerchantOrderItemIsServiceProduct(int $idMerchantSalesOrderItem): bool
     {
         return $this->getFactory()
-            ->createServiceProductDetector()
-            ->checkMerchantOrderItemIsServiceProduct($idMerchantSalesOrderItem);
+            ->createMerchantOrderItemServiceProductDetector()
+            ->isServiceProduct($idMerchantSalesOrderItem);
     }
 
     /**
@@ -53,14 +54,46 @@ class ServiceProductFacade extends AbstractFacade implements ServiceProductFacad
      *
      * @api
      *
-     * @param int $idSalesOrderItem
+     * @param array<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
      *
-     * @return bool
+     * @return array<\Generated\Shared\Transfer\ProductConcreteTransfer>
      */
-    public function checkSalesOrderItemIsServiceProduct(int $idSalesOrderItem): bool
+    public function expandProductConcretesWithServiceProductFlag(array $productConcreteTransfers): array
     {
         return $this->getFactory()
-            ->createServiceProductDetector()
-            ->checkSalesOrderItemIsServiceProduct($idSalesOrderItem);
+            ->createProductConcreteExpander()
+            ->expandWithServiceProductFlag($productConcreteTransfers);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param array<\Generated\Shared\Transfer\ProductConcreteStorageTransfer> $productConcreteStorageTransfers
+     *
+     * @return array<\Generated\Shared\Transfer\ProductConcreteStorageTransfer>
+     */
+    public function expandProductConcreteStoragesWithServiceFlag(array $productConcreteStorageTransfers): array
+    {
+        return $this->getFactory()
+            ->createProductConcreteStorageExpander()
+            ->expandWithServiceProductFlag($productConcreteStorageTransfers);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\CartChangeTransfer $cartChangeTransfer
+     *
+     * @return \Generated\Shared\Transfer\CartChangeTransfer
+     */
+    public function expandItemsWithServiceProductFlag(CartChangeTransfer $cartChangeTransfer): CartChangeTransfer
+    {
+        return $this->getFactory()
+            ->createCartChangeItemExpander()
+            ->expandWithServiceProductFlag($cartChangeTransfer);
     }
 }

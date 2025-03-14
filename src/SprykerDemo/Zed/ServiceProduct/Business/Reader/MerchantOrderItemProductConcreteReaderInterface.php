@@ -9,19 +9,12 @@ namespace SprykerDemo\Zed\ServiceProduct\Business\Reader;
 
 use Generated\Shared\Transfer\ProductConcreteTransfer;
 
-interface ServiceProductReaderInterface
+interface MerchantOrderItemProductConcreteReaderInterface
 {
     /**
      * @param int $idMerchantSalesOrderItem
      *
      * @return \Generated\Shared\Transfer\ProductConcreteTransfer|null
      */
-    public function findProductConcreteByMerchantOrderItemId(int $idMerchantSalesOrderItem): ?ProductConcreteTransfer;
-
-    /**
-     * @param int $idSalesOrderItem
-     *
-     * @return \Generated\Shared\Transfer\ProductConcreteTransfer|null
-     */
-    public function findProductConcreteByIdSalesOrderItem(int $idSalesOrderItem): ?ProductConcreteTransfer;
+    public function findProductByIdMerchantSalesOrderItem(int $idMerchantSalesOrderItem): ?ProductConcreteTransfer;
 }

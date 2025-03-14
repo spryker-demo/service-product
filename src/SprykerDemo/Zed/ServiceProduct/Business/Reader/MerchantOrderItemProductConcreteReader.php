@@ -7,15 +7,22 @@
 
 namespace SprykerDemo\Zed\ServiceProduct\Business\Reader;
 
+use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\MerchantOrderItemCriteriaTransfer;
 use Generated\Shared\Transfer\MerchantOrderItemTransfer;
+use Generated\Shared\Transfer\OrderItemFilterTransfer;
 use Generated\Shared\Transfer\ProductConcreteTransfer;
 use Spryker\Zed\MerchantSalesOrder\Business\MerchantSalesOrderFacadeInterface;
 use Spryker\Zed\Product\Business\ProductFacadeInterface;
-use SprykerDemo\Zed\ServiceProduct\Persistence\ServiceProductRepositoryInterface;
+use Spryker\Zed\Sales\Business\SalesFacadeInterface;
 
-class ServiceProductReader implements ServiceProductReaderInterface
+class MerchantOrderItemProductConcreteReader implements MerchantOrderItemProductConcreteReaderInterface
 {
+    /**
+     * @var int
+     */
+    protected const FIRST_ITEM_INDEX = 0;
+
     /**
      * @var \Spryker\Zed\Product\Business\ProductFacadeInterface
      */
@@ -27,23 +34,23 @@ class ServiceProductReader implements ServiceProductReaderInterface
     protected MerchantSalesOrderFacadeInterface $merchantSalesOrderFacade;
 
     /**
-     * @var \SprykerDemo\Zed\ServiceProduct\Persistence\ServiceProductRepositoryInterface
+     * @var \Spryker\Zed\Sales\Business\SalesFacadeInterface
      */
-    protected ServiceProductRepositoryInterface $repository;
+    protected SalesFacadeInterface $salesFacade;
 
     /**
      * @param \Spryker\Zed\Product\Business\ProductFacadeInterface $productFacade
      * @param \Spryker\Zed\MerchantSalesOrder\Business\MerchantSalesOrderFacadeInterface $merchantSalesOrderFacade
-     * @param \SprykerDemo\Zed\ServiceProduct\Persistence\ServiceProductRepositoryInterface $repository
+     * @param \Spryker\Zed\Sales\Business\SalesFacadeInterface $salesFacade
      */
     public function __construct(
         ProductFacadeInterface $productFacade,
         MerchantSalesOrderFacadeInterface $merchantSalesOrderFacade,
-        ServiceProductRepositoryInterface $repository
+        SalesFacadeInterface $salesFacade
     ) {
         $this->productFacade = $productFacade;
         $this->merchantSalesOrderFacade = $merchantSalesOrderFacade;
-        $this->repository = $repository;
+        $this->salesFacade = $salesFacade;
     }
 
     /**
@@ -51,34 +58,32 @@ class ServiceProductReader implements ServiceProductReaderInterface
      *
      * @return \Generated\Shared\Transfer\ProductConcreteTransfer|null
      */
-    public function findProductConcreteByMerchantOrderItemId(int $idMerchantSalesOrderItem): ?ProductConcreteTransfer
+    public function findProductByIdMerchantSalesOrderItem(int $idMerchantSalesOrderItem): ?ProductConcreteTransfer
     {
         $merchantOrderItemTransfer = $this->findMerchantOrderItem($idMerchantSalesOrderItem);
         if (!$merchantOrderItemTransfer) {
             return null;
         }
 
-        return $this->findProductConcreteByIdSalesOrderItem($merchantOrderItemTransfer->getIdOrderItem());
+        $itemTransfer = $this->findOrderItemByIdSalesOrderItem($merchantOrderItemTransfer->getIdOrderItem());
+        if (!$itemTransfer) {
+            return null;
+        }
+
+        return $this->productFacade->getProductConcrete($itemTransfer->getSku());
     }
 
     /**
      * @param int $idSalesOrderItem
      *
-     * @return \Generated\Shared\Transfer\ProductConcreteTransfer|null
+     * @return \Generated\Shared\Transfer\ItemTransfer|null
      */
-    public function findProductConcreteByIdSalesOrderItem(int $idSalesOrderItem): ?ProductConcreteTransfer
+    protected function findOrderItemByIdSalesOrderItem(int $idSalesOrderItem): ?ItemTransfer
     {
-        $productConcreteSku = $this->repository->findProductSkuBySalesOrderItemId($idSalesOrderItem);
-        if (!$productConcreteSku) {
-            return null;
-        }
+        $orderItemFilterTransfer = (new OrderItemFilterTransfer())->addSalesOrderItemId($idSalesOrderItem);
+        $itemCollectionTransfer = $this->salesFacade->getOrderItems($orderItemFilterTransfer);
 
-        $productConcreteId = $this->productFacade->findProductConcreteIdBySku($productConcreteSku);
-        if (!$productConcreteId) {
-            return null;
-        }
-
-        return $this->productFacade->findProductConcreteById($productConcreteId);
+        return $itemCollectionTransfer->getItems()->offsetGet(static::FIRST_ITEM_INDEX);
     }
 
     /**

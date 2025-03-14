@@ -8,6 +8,7 @@
 namespace SprykerDemo\Zed\ServiceProduct\Business;
 
 use ArrayObject;
+use Generated\Shared\Transfer\CartChangeTransfer;
 use Generated\Shared\Transfer\ShipmentGroupTransfer;
 
 interface ServiceProductFacadeInterface
@@ -28,9 +29,8 @@ interface ServiceProductFacadeInterface
 
     /**
      * Specification:
-     * - Finds `MerchantOrderItemTransfer` by `$idMerchantOrderItem`
-     * - Finds product by merchant order item.
-     * - Checks if product is a service product by attributes.
+     * - Finds product concrete by merchant order item.
+     * - Returns value of service product flag.
      *
      * @api
      *
@@ -42,14 +42,37 @@ interface ServiceProductFacadeInterface
 
     /**
      * Specification:
-     * - Finds product by sales order item.
-     * - Checks if product is a service product by attributes.
+     * - Expands the product concretes by adding the service flag property.
      *
      * @api
      *
-     * @param int $idSalesOrderItem
+     * @param array<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
      *
-     * @return bool
+     * @return array<\Generated\Shared\Transfer\ProductConcreteTransfer>
      */
-    public function checkSalesOrderItemIsServiceProduct(int $idSalesOrderItem): bool;
+    public function expandProductConcretesWithServiceProductFlag(array $productConcreteTransfers): array;
+
+    /**
+     * Specification:
+     * - Expands the product concrete storage transfers by adding the service flag property.
+     *
+     * @api
+     *
+     * @param array<\Generated\Shared\Transfer\ProductConcreteStorageTransfer> $productConcreteStorageTransfers
+     *
+     * @return array<\Generated\Shared\Transfer\ProductConcreteStorageTransfer>
+     */
+    public function expandProductConcreteStoragesWithServiceFlag(array $productConcreteStorageTransfers): array;
+
+    /**
+     * Specification:
+     * - Expands items with service product flag.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\CartChangeTransfer $cartChangeTransfer
+     *
+     * @return \Generated\Shared\Transfer\CartChangeTransfer
+     */
+    public function expandItemsWithServiceProductFlag(CartChangeTransfer $cartChangeTransfer): CartChangeTransfer;
 }
