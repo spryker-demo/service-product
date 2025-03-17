@@ -37,7 +37,9 @@ class ServiceProductBusinessFactory extends AbstractBusinessFactory
      */
     public function createShipmentGroupMethodFilter(): ShipmentGroupMethodFilterInterface
     {
-        return new ShipmentGroupMethodFilter();
+        return new ShipmentGroupMethodFilter(
+            $this->getConfig(),
+        );
     }
 
     /**

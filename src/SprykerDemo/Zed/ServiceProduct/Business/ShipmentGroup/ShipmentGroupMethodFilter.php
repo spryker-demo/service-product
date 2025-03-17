@@ -14,6 +14,19 @@ use SprykerDemo\Zed\ServiceProduct\ServiceProductConfig;
 class ShipmentGroupMethodFilter implements ShipmentGroupMethodFilterInterface
 {
     /**
+     * @var \SprykerDemo\Zed\ServiceProduct\ServiceProductConfig
+     */
+    protected ServiceProductConfig $serviceProductConfig;
+
+    /**
+     * @param \SprykerDemo\Zed\ServiceProduct\ServiceProductConfig $serviceProductConfig
+     */
+    public function __construct(ServiceProductConfig $serviceProductConfig)
+    {
+        $this->serviceProductConfig = $serviceProductConfig;
+    }
+
+    /**
      * @param \Generated\Shared\Transfer\ShipmentGroupTransfer $shipmentGroupTransfer
      *
      * @return \ArrayObject<\Generated\Shared\Transfer\ShipmentMethodTransfer>
@@ -22,9 +35,10 @@ class ShipmentGroupMethodFilter implements ShipmentGroupMethodFilterInterface
     {
         $shipmentMethods = $shipmentGroupTransfer->getAvailableShipmentMethodsOrFail()->getMethods();
         $shipmentGroupHasOnlyServiceProductItems = $this->shipmentGroupHasOnlyServiceProductItems($shipmentGroupTransfer);
+        $serviceShipmentMethodKey = $this->serviceProductConfig->getServiceShipmentMethodKey();
 
         foreach ($shipmentMethods as $shipmentMethodIndex => $shipmentMethodTransfer) {
-            if ($shipmentMethodTransfer->getName() !== ServiceProductConfig::SERVICE_PRODUCT_SHIPMENT_METHOD_NAME) {
+            if ($shipmentMethodTransfer->getShipmentMethodKey() !== $serviceShipmentMethodKey) {
                 continue;
             }
 

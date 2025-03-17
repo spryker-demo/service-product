@@ -14,12 +14,22 @@ class ServiceProductConfig extends AbstractBundleConfig
     /**
      * @var string
      */
-    public const SERVICE_PRODUCT_SHIPMENT_METHOD_NAME = 'ServiceShipment';
+    protected const SERVICE_SHIPMENT_METHOD_KEY = 'spryker_service_shipment';
 
     /**
      * @var string
      */
     protected const ATTRIBUTE_KEY_SERVICE_PRODUCT = 'service_product';
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getServiceShipmentMethodKey(): string
+    {
+        return static::SERVICE_SHIPMENT_METHOD_KEY;
+    }
 
     /**
      * @api
