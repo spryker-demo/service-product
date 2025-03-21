@@ -74,7 +74,7 @@ class ServiceProductFacade extends AbstractFacade implements ServiceProductFacad
      *
      * @return array<\Generated\Shared\Transfer\ProductConcreteStorageTransfer>
      */
-    public function expandProductConcreteStoragesWithServiceFlag(array $productConcreteStorageTransfers): array
+    public function expandProductConcreteStorageTransfersWithServiceProductFlag(array $productConcreteStorageTransfers): array
     {
         return $this->getFactory()
             ->createProductConcreteStorageExpander()

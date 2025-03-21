@@ -70,7 +70,7 @@ class MerchantOrderItemProductConcreteReader implements MerchantOrderItemProduct
             return null;
         }
 
-        return $this->productFacade->getProductConcrete($itemTransfer->getSku());
+        return $this->productFacade->findProductConcreteById($itemTransfer->getId());
     }
 
     /**

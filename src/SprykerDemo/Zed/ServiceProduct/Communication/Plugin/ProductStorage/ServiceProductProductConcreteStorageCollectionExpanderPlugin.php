@@ -28,6 +28,6 @@ class ServiceProductProductConcreteStorageCollectionExpanderPlugin extends Abstr
      */
     public function expand(array $productConcreteStorageTransfers): array
     {
-        return $this->getFacade()->expandProductConcreteStoragesWithServiceFlag($productConcreteStorageTransfers);
+        return $this->getFacade()->expandProductConcreteStorageTransfersWithServiceProductFlag($productConcreteStorageTransfers);
     }
 }

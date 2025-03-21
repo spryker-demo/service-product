@@ -34,6 +34,6 @@ class ProductAttributeServiceProductDetector implements ProductAttributeServiceP
         $serviceProductAttributeKey = $this->serviceProductConfig->getServiceProductAttributeKey();
 
         return isset($productAttributes[$serviceProductAttributeKey])
-            && (bool)$productAttributes[$serviceProductAttributeKey] === true;
+            && filter_var($productAttributes[$serviceProductAttributeKey], FILTER_VALIDATE_BOOLEAN);
     }
 }

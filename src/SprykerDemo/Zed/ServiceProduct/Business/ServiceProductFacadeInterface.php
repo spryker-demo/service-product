@@ -42,7 +42,7 @@ interface ServiceProductFacadeInterface
 
     /**
      * Specification:
-     * - Expands the product concretes by adding the service flag property.
+     * - Expands the concrete products by adding the service flag property.
      *
      * @api
      *
@@ -62,7 +62,7 @@ interface ServiceProductFacadeInterface
      *
      * @return array<\Generated\Shared\Transfer\ProductConcreteStorageTransfer>
      */
-    public function expandProductConcreteStoragesWithServiceFlag(array $productConcreteStorageTransfers): array;
+    public function expandProductConcreteStorageTransfersWithServiceProductFlag(array $productConcreteStorageTransfers): array;
 
     /**
      * Specification:
