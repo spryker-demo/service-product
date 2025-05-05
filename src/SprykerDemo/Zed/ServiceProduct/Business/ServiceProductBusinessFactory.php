@@ -10,19 +10,25 @@ namespace SprykerDemo\Zed\ServiceProduct\Business;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use Spryker\Zed\MerchantSalesOrder\Business\MerchantSalesOrderFacadeInterface;
 use Spryker\Zed\Product\Business\ProductFacadeInterface;
-use SprykerDemo\Zed\ServiceProduct\Business\Checker\ServiceProductChecker;
-use SprykerDemo\Zed\ServiceProduct\Business\Checker\ServiceProductCheckerInterface;
-use SprykerDemo\Zed\ServiceProduct\Business\Reader\ServiceProductReader;
-use SprykerDemo\Zed\ServiceProduct\Business\Reader\ServiceProductReaderInterface;
+use Spryker\Zed\Sales\Business\SalesFacadeInterface;
+use SprykerDemo\Zed\ServiceProduct\Business\Detector\MerchantOrderItemServiceProductDetector;
+use SprykerDemo\Zed\ServiceProduct\Business\Detector\MerchantOrderItemServiceProductDetectorInterface;
+use SprykerDemo\Zed\ServiceProduct\Business\Detector\ProductAttributeServiceProductDetector;
+use SprykerDemo\Zed\ServiceProduct\Business\Detector\ProductAttributeServiceProductDetectorInterface;
+use SprykerDemo\Zed\ServiceProduct\Business\Expander\CartChangeItemExpander;
+use SprykerDemo\Zed\ServiceProduct\Business\Expander\CartChangeItemExpanderInterface;
+use SprykerDemo\Zed\ServiceProduct\Business\Expander\ProductConcreteExpander;
+use SprykerDemo\Zed\ServiceProduct\Business\Expander\ProductConcreteExpanderInterface;
+use SprykerDemo\Zed\ServiceProduct\Business\Expander\ProductConcreteStorageExpander;
+use SprykerDemo\Zed\ServiceProduct\Business\Expander\ProductConcreteStorageExpanderInterface;
+use SprykerDemo\Zed\ServiceProduct\Business\Reader\MerchantOrderItemProductConcreteReader;
+use SprykerDemo\Zed\ServiceProduct\Business\Reader\MerchantOrderItemProductConcreteReaderInterface;
 use SprykerDemo\Zed\ServiceProduct\Business\ShipmentGroup\ShipmentGroupMethodFilter;
 use SprykerDemo\Zed\ServiceProduct\Business\ShipmentGroup\ShipmentGroupMethodFilterInterface;
-use SprykerDemo\Zed\ServiceProduct\Business\ShipmentMethod\ShipmentMethodChecker;
-use SprykerDemo\Zed\ServiceProduct\Business\ShipmentMethod\ShipmentMethodCheckerInterface;
 use SprykerDemo\Zed\ServiceProduct\ServiceProductDependencyProvider;
 
 /**
  * @method \SprykerDemo\Zed\ServiceProduct\ServiceProductConfig getConfig()
- * @method \SprykerDemo\Zed\ServiceProduct\Persistence\ServiceProductRepositoryInterface getRepository()
  */
 class ServiceProductBusinessFactory extends AbstractBusinessFactory
 {
@@ -31,36 +37,68 @@ class ServiceProductBusinessFactory extends AbstractBusinessFactory
      */
     public function createShipmentGroupMethodFilter(): ShipmentGroupMethodFilterInterface
     {
-        return new ShipmentGroupMethodFilter($this->createShipmentMethodChecker());
-    }
-
-    /**
-     * @return \SprykerDemo\Zed\ServiceProduct\Business\ShipmentMethod\ShipmentMethodCheckerInterface
-     */
-    public function createShipmentMethodChecker(): ShipmentMethodCheckerInterface
-    {
-        return new ShipmentMethodChecker($this->createServiceProductChecker());
-    }
-
-    /**
-     * @return \SprykerDemo\Zed\ServiceProduct\Business\Checker\ServiceProductCheckerInterface
-     */
-    public function createServiceProductChecker(): ServiceProductCheckerInterface
-    {
-        return new ServiceProductChecker(
-            $this->createServiceProductReader(),
+        return new ShipmentGroupMethodFilter(
+            $this->getConfig(),
         );
     }
 
     /**
-     * @return \SprykerDemo\Zed\ServiceProduct\Business\Reader\ServiceProductReaderInterface
+     * @return \SprykerDemo\Zed\ServiceProduct\Business\Detector\MerchantOrderItemServiceProductDetectorInterface
      */
-    public function createServiceProductReader(): ServiceProductReaderInterface
+    public function createMerchantOrderItemServiceProductDetector(): MerchantOrderItemServiceProductDetectorInterface
     {
-        return new ServiceProductReader(
+        return new MerchantOrderItemServiceProductDetector(
+            $this->createMerchantOrderItemProductConcreteReader(),
+        );
+    }
+
+    /**
+     * @return \SprykerDemo\Zed\ServiceProduct\Business\Reader\MerchantOrderItemProductConcreteReaderInterface
+     */
+    public function createMerchantOrderItemProductConcreteReader(): MerchantOrderItemProductConcreteReaderInterface
+    {
+        return new MerchantOrderItemProductConcreteReader(
             $this->getProductFacade(),
             $this->getMerchantSalesOrderFacade(),
-            $this->getRepository(),
+            $this->getSalesFacade(),
+        );
+    }
+
+    /**
+     * @return \SprykerDemo\Zed\ServiceProduct\Business\Expander\ProductConcreteExpanderInterface
+     */
+    public function createProductConcreteExpander(): ProductConcreteExpanderInterface
+    {
+        return new ProductConcreteExpander(
+            $this->createProductAttributeServiceProductDetector(),
+        );
+    }
+
+    /**
+     * @return \SprykerDemo\Zed\ServiceProduct\Business\Expander\ProductConcreteStorageExpanderInterface
+     */
+    public function createProductConcreteStorageExpander(): ProductConcreteStorageExpanderInterface
+    {
+        return new ProductConcreteStorageExpander(
+            $this->createProductAttributeServiceProductDetector(),
+        );
+    }
+
+    /**
+     * @return \SprykerDemo\Zed\ServiceProduct\Business\Expander\CartChangeItemExpanderInterface
+     */
+    public function createCartChangeItemExpander(): CartChangeItemExpanderInterface
+    {
+        return new CartChangeItemExpander($this->getProductFacade());
+    }
+
+    /**
+     * @return \SprykerDemo\Zed\ServiceProduct\Business\Detector\ProductAttributeServiceProductDetectorInterface
+     */
+    public function createProductAttributeServiceProductDetector(): ProductAttributeServiceProductDetectorInterface
+    {
+        return new ProductAttributeServiceProductDetector(
+            $this->getConfig(),
         );
     }
 
@@ -70,6 +108,14 @@ class ServiceProductBusinessFactory extends AbstractBusinessFactory
     public function getProductFacade(): ProductFacadeInterface
     {
         return $this->getProvidedDependency(ServiceProductDependencyProvider::FACADE_PRODUCT);
+    }
+
+    /**
+     * @return \Spryker\Zed\Sales\Business\SalesFacadeInterface
+     */
+    public function getSalesFacade(): SalesFacadeInterface
+    {
+        return $this->getProvidedDependency(ServiceProductDependencyProvider::FACADE_SALES);
     }
 
     /**

@@ -9,22 +9,21 @@ namespace SprykerDemo\Zed\ServiceProduct\Business\ShipmentGroup;
 
 use ArrayObject;
 use Generated\Shared\Transfer\ShipmentGroupTransfer;
-use SprykerDemo\Zed\ServiceProduct\Business\ShipmentMethod\ShipmentMethodCheckerInterface;
 use SprykerDemo\Zed\ServiceProduct\ServiceProductConfig;
 
 class ShipmentGroupMethodFilter implements ShipmentGroupMethodFilterInterface
 {
     /**
-     * @var \SprykerDemo\Zed\ServiceProduct\Business\ShipmentMethod\ShipmentMethodCheckerInterface
+     * @var \SprykerDemo\Zed\ServiceProduct\ServiceProductConfig
      */
-    protected $shipmentMethodChecker;
+    protected ServiceProductConfig $serviceProductConfig;
 
     /**
-     * @param \SprykerDemo\Zed\ServiceProduct\Business\ShipmentMethod\ShipmentMethodCheckerInterface $shipmentMethodChecker
+     * @param \SprykerDemo\Zed\ServiceProduct\ServiceProductConfig $serviceProductConfig
      */
-    public function __construct(ShipmentMethodCheckerInterface $shipmentMethodChecker)
+    public function __construct(ServiceProductConfig $serviceProductConfig)
     {
-        $this->shipmentMethodChecker = $shipmentMethodChecker;
+        $this->serviceProductConfig = $serviceProductConfig;
     }
 
     /**
@@ -35,14 +34,15 @@ class ShipmentGroupMethodFilter implements ShipmentGroupMethodFilterInterface
     public function filterShipmentGroupMethods(ShipmentGroupTransfer $shipmentGroupTransfer): ArrayObject
     {
         $shipmentMethods = $shipmentGroupTransfer->getAvailableShipmentMethodsOrFail()->getMethods();
-        $containsOnlyServiceProductItems = $this->shipmentMethodChecker->containsOnlyServiceProductItems($shipmentGroupTransfer);
+        $shipmentGroupHasOnlyServiceProductItems = $this->shipmentGroupHasOnlyServiceProductItems($shipmentGroupTransfer);
+        $serviceShipmentMethodKey = $this->serviceProductConfig->getServiceShipmentMethodKey();
 
         foreach ($shipmentMethods as $shipmentMethodIndex => $shipmentMethodTransfer) {
-            if ($shipmentMethodTransfer->getName() !== ServiceProductConfig::SERVICE_PRODUCT_SHIPMENT_METHOD_NAME) {
+            if ($shipmentMethodTransfer->getShipmentMethodKey() !== $serviceShipmentMethodKey) {
                 continue;
             }
 
-            if ($containsOnlyServiceProductItems) {
+            if ($shipmentGroupHasOnlyServiceProductItems) {
                 return new ArrayObject([$shipmentMethodTransfer]);
             }
 
@@ -50,5 +50,21 @@ class ShipmentGroupMethodFilter implements ShipmentGroupMethodFilterInterface
         }
 
         return $shipmentMethods;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\ShipmentGroupTransfer $shipmentGroupTransfer
+     *
+     * @return bool
+     */
+    protected function shipmentGroupHasOnlyServiceProductItems(ShipmentGroupTransfer $shipmentGroupTransfer): bool
+    {
+        foreach ($shipmentGroupTransfer->getItems() as $itemTransfer) {
+            if (!$itemTransfer->getIsServiceProduct()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -12,19 +12,32 @@ use Spryker\Zed\Kernel\AbstractBundleConfig;
 class ServiceProductConfig extends AbstractBundleConfig
 {
     /**
-     * @uses \Spryker\Shared\Shipment\ShipmentConfig::SHIPMENT_METHOD_NAME_NO_SHIPMENT
+     * @var string
+     */
+    protected const SERVICE_SHIPMENT_METHOD_KEY = 'spryker_service_shipment';
+
+    /**
+     * @var string
+     */
+    protected const ATTRIBUTE_KEY_SERVICE_PRODUCT = 'service_product';
+
+    /**
+     * @api
      *
-     * @var string
+     * @return string
      */
-    public const SERVICE_PRODUCT_SHIPMENT_METHOD_NAME = 'NoShipment';
+    public function getServiceShipmentMethodKey(): string
+    {
+        return static::SERVICE_SHIPMENT_METHOD_KEY;
+    }
 
     /**
-     * @var string
+     * @api
+     *
+     * @return string
      */
-    public const SERVICE_PRODUCT_ATTRIBUTE = 'service_product';
-
-    /**
-     * @var string
-     */
-    public const IS_SERVICE_PRODUCT_ATTRIBUTE_VALUE = 'Yes';
+    public function getServiceProductAttributeKey(): string
+    {
+        return static::ATTRIBUTE_KEY_SERVICE_PRODUCT;
+    }
 }

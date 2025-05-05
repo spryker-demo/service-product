@@ -13,13 +13,15 @@ use Spryker\Zed\Oms\Dependency\Plugin\Condition\ConditionInterface;
 
 /**
  * @method \SprykerDemo\Zed\ServiceProduct\Business\ServiceProductFacadeInterface getFacade()
+ * @method \SprykerDemo\Zed\ServiceProduct\Communication\ServiceProductCommunicationFactory getFactory()
+ * @method \SprykerDemo\Zed\ServiceProduct\ServiceProductConfig getConfig()
  */
 class IsServiceProductConditionPlugin extends AbstractPlugin implements ConditionInterface
 {
     /**
      * {@inheritDoc}
-     * - Finds product by sales order item.
-     * - Checks if product is a service product by attributes.
+     * - Gets product by sales order item sku.
+     * - Returns value of service product flag.
      *
      * @api
      *
@@ -29,6 +31,10 @@ class IsServiceProductConditionPlugin extends AbstractPlugin implements Conditio
      */
     public function check(SpySalesOrderItem $orderItem): bool
     {
-        return $this->getFacade()->checkSalesOrderItemIsServiceProduct($orderItem->getIdSalesOrderItem());
+        $productConcreteTransfer = $this->getFactory()
+            ->getProductFacade()
+            ->getProductConcrete($orderItem->getSku());
+
+        return $productConcreteTransfer->getIsServiceProduct();
     }
 }
