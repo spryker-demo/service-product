@@ -80,6 +80,7 @@ class ServiceProductBusinessFactory extends AbstractBusinessFactory
     public function createProductConcreteStorageExpander(): ProductConcreteStorageExpanderInterface
     {
         return new ProductConcreteStorageExpander(
+            $this->getProductFacade(),
             $this->createProductAttributeServiceProductDetector(),
         );
     }
